@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   }
 
   namespace :auth do
-    resources :sessions, only: %i[index]
+    resources :sessions, only: [:index]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
