@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_01_095823) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_03_071027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_01_095823) do
     t.integer "approved_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "overtime_work_minute"
     t.index ["user_id", "work_date"], name: "index_work_times_on_user_id_and_work_date", unique: true
     t.index ["user_id"], name: "index_work_times_on_user_id"
   end
