@@ -6,6 +6,5 @@ class WorkTime < ApplicationRecord
   validates :work_date, presence: true
   validates :work_minute, presence: true
   validates :break_duration_minute, presence: true
-  validates :approved, presence: true
   validates :work_date, uniqueness: { scope: :user_id }
 end
