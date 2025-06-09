@@ -50,8 +50,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_03_071752) do
   create_table "work_times", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.date "work_date", null: false
-    t.datetime "clock_in"
-    t.datetime "clock_out"
+    t.time "clock_in"
+    t.time "clock_out"
     t.integer "work_minute", default: 0, null: false
     t.integer "break_duration_minute", default: 0, null: false
     t.text "note"

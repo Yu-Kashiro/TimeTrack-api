@@ -3,8 +3,8 @@ class CreateWorkTimes < ActiveRecord::Migration[7.2]
     create_table :work_times do |t|
       t.references :user, null: false, foreign_key: true
       t.date :work_date, null: false
-      t.datetime :clock_in
-      t.datetime :clock_out
+      t.time :clock_in
+      t.time :clock_out
       t.integer :work_minute, null: false, default: 0
       t.integer :break_duration_minute, null: false, default: 0
       t.text :note
