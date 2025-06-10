@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/work_times', to: 'work_times#index'
   post '/work_times', to: 'work_times#create'
   put '/work_times', to: 'work_times#update'
+  get '/work_times/:id', to: 'work_times#show'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

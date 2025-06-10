@@ -33,6 +33,15 @@ class WorkTimesController < ApplicationController
     end
   end
 
+  def show
+    work_time = current_user.work_times.find_by(id: params[:id])
+    if work_time
+      render json: work_time
+    else
+      render json: { error: 'Work time not found' }, status: :not_found
+    end
+  end
+
   private
   def work_time_params
     params.require(:work_time).permit(
