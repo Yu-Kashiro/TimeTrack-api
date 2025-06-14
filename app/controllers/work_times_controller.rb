@@ -3,7 +3,7 @@ class WorkTimesController < ApplicationController
 
   def index
     work_times = current_user.work_times
-    render json: work_times
+    render json: work_times, status: :ok
   end
 
   def create
