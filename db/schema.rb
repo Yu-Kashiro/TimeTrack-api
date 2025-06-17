@@ -61,7 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_16_071720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "overtime_work_minute"
-    t.boolean "id_paid_holiday"
+    t.boolean "is_paid_holiday"
     t.index ["user_id", "work_date"], name: "index_work_times_on_user_id_and_work_date", unique: true
     t.index ["user_id"], name: "index_work_times_on_user_id"
   end
