@@ -8,7 +8,10 @@ class WorkTimesController < ApplicationController
 
   def create
     work_times = current_user.work_times.build(work_time_params)
-    work_times.break_duration_minute = params[:break_duration_minute].split(':').map(&:to_i).then { |hours, minutes| hours * 60 + minutes }
+
+    if params[:break_duration_minute].present?
+      work_times.break_duration_minute = params[:break_duration_minute].split(':').map(&:to_i).then { |hours, minutes| hours * 60 + minutes }
+    end
 
     if params[:clock_in].present? && params[:clock_out].present?
       clock_in = Time.parse(params[:clock_in])
@@ -42,6 +45,16 @@ class WorkTimesController < ApplicationController
     end
   end
 
+  def destroy
+    work_time = current_user.work_times.find_by(id: params[:id])
+    if work_time
+      work_time.destroy
+      head :no_content
+    else
+      render json: { error: 'Work times not found' }, status: :not_found
+    end
+  end
+
   private
   def work_time_params
     params.require(:work_time).permit(
@@ -54,7 +67,7 @@ class WorkTimesController < ApplicationController
       :approved,
       :approved_by_id,
       :overtime_work_minute,
-      :id_paid_holiday
+      :is_paid_holiday
     )
   end
 end
