@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        work_time:
+          attributes:
+            work_date:
+              taken: "%{value} はすでに登録されています"
+  errors:
+    format: "%{message}"
