@@ -2,21 +2,28 @@ class WorkTimesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    work_times = current_user.work_times
+    work_times = current_user.work_times.order(:work_date)
     render json: work_times, status: :ok
   end
 
   def create
     work_times = current_user.work_times.build(work_time_params)
 
-    if params[:break_duration_minute].present?
-      work_times.break_duration_minute = params[:break_duration_minute].split(':').map(&:to_i).then { |hours, minutes| hours * 60 + minutes }
+    if params[:work_time][:break_duration].present?
+      work_times.break_duration_minute = params[:work_time][:break_duration]
+        .split(':').map(&:to_i).then { |h, m| h * 60 + m }
+    else
+      work_times.break_duration_minute = 0
     end
 
-    if params[:clock_in].present? && params[:clock_out].present?
-      clock_in = Time.parse(params[:clock_in])
-      clock_out = Time.parse(params[:clock_out])
-      work_times.work_minute = ((clock_out - clock_in) / 60).to_i - work_times.break_duration_minute
+    if params[:work_time][:clock_in].present? && params[:work_time][:clock_out].present?
+      work_times.clock_in = Time.parse(params[:work_time][:clock_in])
+      work_times.clock_out = Time.parse(params[:work_time][:clock_out])
+      work_times.work_minute = ((work_times.clock_out - work_times.clock_in) / 60).to_i - work_times.break_duration_minute
+    else
+      work_times.clock_in = nil
+      work_times.clock_out = nil
+      work_times.work_minute = 0
     end
 
     if work_times.save
@@ -27,28 +34,45 @@ class WorkTimesController < ApplicationController
   end
 
   def update
-    work_time = current_user.work_times.find_by(id: params[:id])
+    work_times = current_user.work_times.find_by(id: params[:id])
 
-    if work_time.update(work_time_params)
-      render json: work_time
+    if params[:work_time][:break_duration].present?
+      work_times.break_duration_minute = params[:work_time][:break_duration]
+        .split(':').map(&:to_i).then { |h, m| h * 60 + m }
     else
-      render json: { errors: work_time.errors.full_messages }, status: :unprocessable_entity
+      work_times.break_duration_minute = 0
+    end
+
+    if params[:work_time][:clock_in].present? && params[:work_time][:clock_out].present?
+      work_times.clock_in = Time.parse(params[:work_time][:clock_in])
+      work_times.clock_out = Time.parse(params[:work_time][:clock_out])
+      work_times.work_minute = ((work_times.clock_out - work_times.clock_in) / 60).to_i - work_times.break_duration_minute
+    else
+      work_times.clock_in = nil
+      work_times.clock_out = nil
+      work_times.work_minute = 0
+    end
+
+    if work_times.update(work_time_params)
+      render json: work_times, status: :ok
+    else
+      render json: { errors: work_times.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def show
-    work_time = current_user.work_times.find_by(id: params[:id])
-    if work_time
-      render json: work_time
+    work_times = current_user.work_times.find_by(id: params[:id])
+    if work_times
+      render json: work_times, status: :ok
     else
       render json: { error: 'Work times not found' }, status: :not_found
     end
   end
 
   def destroy
-    work_time = current_user.work_times.find_by(id: params[:id])
-    if work_time
-      work_time.destroy
+    work_times = current_user.work_times.find_by(id: params[:id])
+    if work_times
+      work_times.destroy
       head :no_content
     else
       render json: { error: 'Work times not found' }, status: :not_found
@@ -59,14 +83,7 @@ class WorkTimesController < ApplicationController
   def work_time_params
     params.require(:work_time).permit(
       :work_date,
-      :clock_in,
-      :clock_out,
-      :work_minute,
-      :break_duration_minute,
       :note,
-      :approved,
-      :approved_by_id,
-      :overtime_work_minute,
       :is_paid_holiday
     )
   end
