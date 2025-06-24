@@ -32,6 +32,8 @@ gem "rack-cors"
 gem 'devise'
 gem 'devise_token_auth'
 
+gem 'rails-i18n', '~> 7.0.0'
+
 group :development do
   gem 'pry-rails'
   gem 'pry-byebug'
