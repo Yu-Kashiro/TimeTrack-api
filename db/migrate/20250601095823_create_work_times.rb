@@ -15,7 +15,7 @@ class CreateWorkTimes < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :work_times, [:user_id, :work_date], unique: true
+    add_index :work_times, [ :user_id, :work_date ], unique: true
     add_foreign_key :work_times, :users, column: :approved_by_id
   end
 end

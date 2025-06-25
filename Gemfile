@@ -29,14 +29,14 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"
 
-gem 'devise'
-gem 'devise_token_auth'
+gem "devise"
+gem "devise_token_auth"
 
-gem 'rails-i18n', '~> 7.0.0'
+gem "rails-i18n", "~> 7.0.0"
 
 group :development do
-  gem 'pry-rails'
-  gem 'pry-byebug'
+  gem "pry-rails"
+  gem "pry-byebug"
 end
 
 group :development, :test do
@@ -49,5 +49,3 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
-
-

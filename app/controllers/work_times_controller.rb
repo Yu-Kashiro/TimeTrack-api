@@ -11,7 +11,7 @@ class WorkTimesController < ApplicationController
 
     if params[:work_time][:break_duration].present?
       work_times.break_duration_minute = params[:work_time][:break_duration]
-        .split(':').map(&:to_i).then { |h, m| h * 60 + m }
+        .split(":").map(&:to_i).then { |h, m| h * 60 + m }
     else
       work_times.break_duration_minute = 0
     end
@@ -38,7 +38,7 @@ class WorkTimesController < ApplicationController
 
     if params[:work_time][:break_duration].present?
       work_times.break_duration_minute = params[:work_time][:break_duration]
-        .split(':').map(&:to_i).then { |h, m| h * 60 + m }
+        .split(":").map(&:to_i).then { |h, m| h * 60 + m }
     else
       work_times.break_duration_minute = 0
     end
@@ -65,7 +65,7 @@ class WorkTimesController < ApplicationController
     if work_times
       render json: work_times, status: :ok
     else
-      render json: { error: 'Work times not found' }, status: :not_found
+      render json: { error: "Work times not found" }, status: :not_found
     end
   end
 
@@ -75,7 +75,7 @@ class WorkTimesController < ApplicationController
       work_times.destroy
       head :no_content
     else
-      render json: { error: 'Work times not found' }, status: :not_found
+      render json: { error: "Work times not found" }, status: :not_found
     end
   end
 
