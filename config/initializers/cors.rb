@@ -7,7 +7,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:5173"
+    if Rails.env.production?
+      origins 'https://time-track-frontend.vercel.app'
+    else
+      origins 'http://localhost:5173'
+    end
 
     resource "*",
       headers: :any,
