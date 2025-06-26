@@ -8,9 +8,9 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     if Rails.env.production?
-      origins 'https://time-track-frontend.vercel.app'
+      origins "https://time-track-frontend.vercel.app"
     else
-      origins 'http://localhost:5173'
+      origins "http://localhost:5173"
     end
 
     resource "*",
