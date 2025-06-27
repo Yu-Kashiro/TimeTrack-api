@@ -44,8 +44,8 @@ class WorkTimesController < ApplicationController
     end
 
     if params[:work_time][:clock_in].present? && params[:work_time][:clock_out].present?
-      work_times.clock_in = Time.parse(params[:work_time][:clock_in])
-      work_times.clock_out = Time.parse(params[:work_time][:clock_out])
+      work_times.clock_in = Time.zone.parse(params[:work_time][:clock_in])
+      work_times.clock_out = Time.zone.parse(params[:work_time][:clock_out])
       work_times.work_minute = ((work_times.clock_out - work_times.clock_in) / 60).to_i - work_times.break_duration_minute
     else
       work_times.clock_in = nil
