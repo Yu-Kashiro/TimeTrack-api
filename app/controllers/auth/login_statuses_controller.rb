@@ -1,5 +1,5 @@
-class Auth::SessionsController < ApplicationController
-  def index
+class Auth::LoginStatusesController < ApplicationController
+  def show
     if current_user
       render json: { is_login: true }
     else
