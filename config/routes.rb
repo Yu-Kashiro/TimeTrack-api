@@ -1,14 +1,25 @@
 Rails.application.routes.draw do
+  # API用
   mount_devise_token_auth_for "User", at: "auth", controllers: {
     registrations: "auth/registrations",
     sessions: "auth/custom_sessions"
   }
 
-  namespace :auth do
-    resources :sessions, only: [ :index ]
+  # ゲストログイン用
+  devise_scope :user do
+    namespace :auth do
+      resource :guest_user, only: [ :create ]
+    end
   end
 
+  # ログイン状態確認用
+  namespace :auth do
+    resource :login_status, only: [ :show ]
+  end
+
+  # 勤怠管理用
   resources :work_times, only: [ :index, :create, :show, :update, :destroy ]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
