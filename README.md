@@ -21,6 +21,16 @@
 
 - ゲストログイン機能を用意しています。以下の動画を参考に、実際にお試しください。
 
+https://github.com/user-attachments/assets/1f5b5144-0978-4b2b-bc22-ec9cd20ddc27
+
+- 新規登録方法
+
+https://github.com/user-attachments/assets/358a4d7e-dc87-4569-b84f-de18b5c77b13
+
+- 通常ログインでCRUD操作
+
+https://github.com/user-attachments/assets/61871314-af98-4a97-b731-5bc366efae5e
+
 ## 機能一覧
 
 ### 認証機能
