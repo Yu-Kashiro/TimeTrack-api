@@ -35,8 +35,6 @@ gem "devise_token_auth"
 gem "rails-i18n", "~> 7.0.0"
 
 group :development do
-  gem "pry-rails"
-  gem "pry-byebug"
 end
 
 group :development, :test do
@@ -52,4 +50,7 @@ group :development, :test do
   gem "faker"
   gem "rspec-rails", "~> 7.0.0"
   gem "factory_bot_rails"
+
+  gem "pry-rails"
+  gem "pry-byebug"
 end
