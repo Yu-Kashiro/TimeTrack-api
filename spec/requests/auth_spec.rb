@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe 'DeviseTokenAuth API認証テスト', type: :request do
   let(:user) { create(:user) }
-
   describe 'ユーザー新規登録' do
     it 'パラメータが揃っていれば、新規登録ができる、トークンが返ってくる' do
       post '/auth', params: {
@@ -13,7 +12,6 @@ describe 'DeviseTokenAuth API認証テスト', type: :request do
         'CONTENT_TYPE' => 'application/json',
         'ACCEPT' => 'application/json'
       }
-
       expect(response).to have_http_status(:success)
       expect(response.headers['access-token']).to be_present
     end
@@ -31,34 +29,34 @@ describe 'DeviseTokenAuth API認証テスト', type: :request do
     end
   end
 
-  # describe 'User Login' do
-  #   it 'allows user login with valid credentials' do
-  #     post '/auth/sign_in', params: {
-  #       email: user.email,
-  #       password: 'password123'
-  #     }.to_json, headers: {
-  #       'CONTENT_TYPE' => 'application/json',
-  #       'ACCEPT' => 'application/json'
-  #     }
+  describe 'ユーザーログイン' do
+    it 'パラメータが揃っていれば、ログインできる' do
+      post '/auth/sign_in', params: {
+        email: user.email,
+        password: user.password
+      }.to_json, headers: {
+        'CONTENT_TYPE' => 'application/json',
+        'ACCEPT' => 'application/json'
+      }
 
-  #     expect(response).to have_http_status(:success)
-  #     expect(response.headers['access-token']).to be_present
-  #     expect(response.headers['client']).to be_present
-  #     expect(response.headers['uid']).to eq(user.email)
-  #   end
+      expect(response).to have_http_status(:success)
+      expect(response.headers['access-token']).to be_present
+      expect(response.headers['client']).to be_present
+      expect(response.headers['uid']).to eq(user.email)
+    end
 
-  #   it 'rejects login with invalid credentials' do
-  #     post '/auth/sign_in', params: {
-  #       email: user.email,
-  #       password: 'wrongpassword'
-  #     }.to_json, headers: {
-  #       'CONTENT_TYPE' => 'application/json',
-  #       'ACCEPT' => 'application/json'
-  #     }
+    it '間違ったパスワードだと、ログインに失敗する' do
+      post '/auth/sign_in', params: {
+        email: user.email,
+        password: 'sippaiyoupassword'
+      }.to_json, headers: {
+        'CONTENT_TYPE' => 'application/json',
+        'ACCEPT' => 'application/json'
+      }
 
-  #     expect(response).to have_http_status(:unauthorized)
-  #   end
-  # end
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
 
   # describe 'Guest User Login' do
   #   it 'creates a guest user and returns auth tokens' do
