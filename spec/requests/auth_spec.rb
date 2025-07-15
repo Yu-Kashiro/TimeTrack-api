@@ -58,56 +58,34 @@ describe 'DeviseTokenAuth API認証テスト', type: :request do
     end
   end
 
-  # describe 'Guest User Login' do
-  #   it 'creates a guest user and returns auth tokens' do
-  #     post '/auth/guest_user', headers: {
-  #       'CONTENT_TYPE' => 'application/json',
-  #       'ACCEPT' => 'application/json'
-  #     }
+  describe 'ゲストユーザーログイン' do
+    it 'ゲストユーザーでログインすると、成功してトークン等が返ってくる' do
+      post '/auth/guest_user', headers: {
+        'CONTENT_TYPE' => 'application/json',
+        'ACCEPT' => 'application/json'
+      }
 
-  #     expect(response).to have_http_status(:success)
-  #     expect(response.headers['access-token']).to be_present
-  #     expect(response.headers['client']).to be_present
-  #     expect(response.headers['uid']).to match(/guest_.*@example\.com/)
-  #   end
-  # end
+      expect(response).to have_http_status(:success)
+      expect(response.headers['access-token']).to be_present
+      expect(response.headers['client']).to be_present
+      expect(response.headers['uid']).to be_present
+    end
+  end
 
-  # describe 'Protected Routes' do
-  #   it 'allows access with valid auth headers' do
-  #     auth_headers = login_user(user)
 
-  #     get '/work_times', headers: auth_headers
-  #     expect(response).to have_http_status(:success)
-  #   end
+  describe 'ログインステータスチェック' do
+    it 'ログイン中の場合、is_login:trueになる' do
+      auth_headers = login_user(user)
 
-  #   it 'denies access without auth headers' do
-  #     get '/work_times'
-  #     expect(response).to have_http_status(:unauthorized)
-  #   end
+      get '/auth/login_status', headers: auth_headers
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['is_login']).to be true
+    end
 
-  #   it 'denies access with invalid token' do
-  #     get '/work_times', headers: {
-  #       'access-token' => 'invalid_token',
-  #       'client' => 'invalid_client',
-  #       'uid' => user.email
-  #     }
-  #     expect(response).to have_http_status(:unauthorized)
-  #   end
-  # end
-
-  # describe 'Login Status Check' do
-  #   it 'returns login status for authenticated user' do
-  #     auth_headers = login_user(user)
-
-  #     get '/auth/login_status', headers: auth_headers
-  #     expect(response).to have_http_status(:success)
-  #     expect(JSON.parse(response.body)['is_login']).to be true
-  #   end
-
-  #   it 'returns not logged in for unauthenticated user' do
-  #     get '/auth/login_status'
-  #     expect(response).to have_http_status(:success)
-  #     expect(JSON.parse(response.body)['is_login']).to be false
-  #   end
-  # end
+    it 'ログアウト中の場合、is_login:falseになる' do
+      get '/auth/login_status'
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body)['is_login']).to be false
+    end
+  end
 end
